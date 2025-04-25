@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Typer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Speed Typer</h1>
+        <div class="timer" id="timer">0s</div>
+        <div class="stats">
+            <div class="stat">
+                <span id="wpm">0</span>
+                <span class="label">WPM</span>
+            </div>
+            <div class="stat">
+                <span id="accuracy">100%</span>
+                <span class="label">Accuracy</span>
+            </div>
+        </div>
+        <div class="text-display" id="text-display"></div>
+        <textarea id="text-input" class="text-input" placeholder="Start typing to begin..." autofocus></textarea>
+        <div class="buttons">
+            <button id="restart-btn" class="restart-btn">New Quote</button>
+            <div class="difficulty">
+                <button data-level="easy" class="difficulty-btn active">Easy</button>
+                <button data-level="medium" class="difficulty-btn">Medium</button>
+                <button data-level="hard" class="difficulty-btn">Hard</button>
+            </div>
+        </div>
+        <div class="results" id="results">
+            <h2>Results</h2>
+            <div class="result-stats">
+                <div class="result-stat">
+                    <span class="result-value" id="result-wpm">0</span>
+                    <span class="result-label">WPM</span>
+                </div>
+                <div class="result-stat">
+                    <span class="result-value" id="result-accuracy">100%</span>
+                    <span class="result-label">Accuracy</span>
+                </div>
+                <div class="result-stat">
+                    <span class="result-value" id="result-time">0s</span>
+                    <span class="result-label">Time</span>
+                </div>
+            </div>
+            <button id="close-results" class="restart-btn">Try Again</button>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
