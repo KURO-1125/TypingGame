@@ -1,4 +1,3 @@
-// Collection of quotes for different difficulty levels
 const QUOTES = {
     easy: [
         "The quick brown fox jumps over the lazy dog.",
@@ -23,7 +22,6 @@ const QUOTES = {
     ]
 };
 
-// DOM Elements
 const textDisplay = document.getElementById('text-display');
 const textInput = document.getElementById('text-input');
 const timer = document.getElementById('timer');
@@ -37,7 +35,6 @@ const resultAccuracy = document.getElementById('result-accuracy');
 const resultTime = document.getElementById('result-time');
 const closeResults = document.getElementById('close-results');
 
-// Game variables
 let currentQuote = '';
 let quoteCharArray = [];
 let currentIndex = 0;
@@ -48,11 +45,9 @@ let totalTypedChars = 0;
 let difficulty = 'easy';
 let isGameActive = false;
 
-// Initialize the game
 function init() {
     loadNewQuote();
-    
-    // Event listeners
+
     textInput.addEventListener('input', handleInput);
     restartBtn.addEventListener('click', loadNewQuote);
     closeResults.addEventListener('click', hideResults);
@@ -67,25 +62,21 @@ function init() {
     });
 }
 
-// Load a new quote
 function loadNewQuote() {
     resetGame();
     
     const quotes = QUOTES[difficulty];
     currentQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    
-    // Create span for each character
+
     quoteCharArray = currentQuote.split('').map(char => {
         const span = document.createElement('span');
         span.innerText = char;
         return span;
     });
-    
-    // Clear previous content and add new spans
+
     textDisplay.innerHTML = '';
     quoteCharArray.forEach(span => textDisplay.appendChild(span));
-    
-    // Highlight first character
+
     if (quoteCharArray.length > 0) {
         quoteCharArray[0].classList.add('current');
     }
@@ -94,7 +85,6 @@ function loadNewQuote() {
     textInput.focus();
 }
 
-// Handle input
 function handleInput(e) {
     const inputValue = textInput.value;
     const currentChar = inputValue.length - 1;
@@ -105,31 +95,27 @@ function handleInput(e) {
     
     if (isGameActive) {
         updateStats(inputValue);
-        
-        // Check if finished
+
         if (inputValue.length >= currentQuote.length) {
             finishGame();
         }
     }
 }
 
-// Start the game
 function startGame() {
     isGameActive = true;
     startTime = new Date();
     timerInterval = setInterval(updateTimer, 1000);
 }
 
-// Update timer
 function updateTimer() {
     const currentTime = new Date();
     const timeElapsed = Math.floor((currentTime - startTime) / 1000);
     timer.innerText = `${timeElapsed}s`;
 }
 
-// Update statistics (WPM and accuracy)
 function updateStats(inputValue) {
-    // Update character styling
+
     for (let i = 0; i < quoteCharArray.length; i++) {
         quoteCharArray[i].classList.remove('current');
         
@@ -145,57 +131,47 @@ function updateStats(inputValue) {
             quoteCharArray[i].classList.remove('correct', 'incorrect');
         }
     }
-    
-    // Add current class to current character
+
     if (inputValue.length < quoteCharArray.length) {
         quoteCharArray[inputValue.length].classList.add('current');
     }
-    
-    // Calculate mistakes
+
     mistakeCount = 0;
     for (let i = 0; i < inputValue.length; i++) {
         if (inputValue[i] !== currentQuote[i]) {
             mistakeCount++;
         }
     }
-    
-    // Calculate WPM
+
     if (startTime) {
         const currentTime = new Date();
-        const timeElapsed = (currentTime - startTime) / 60000; // in minutes
-        const wordsTyped = inputValue.length / 5; // Standard: 5 characters = 1 word
+        const timeElapsed = (currentTime - startTime) / 60000; 
+        const wordsTyped = inputValue.length / 5; 
         const wpm = Math.round(wordsTyped / timeElapsed);
         wpmDisplay.innerText = wpm;
-        
-        // Calculate accuracy
+
         const accuracy = Math.max(0, Math.round(((inputValue.length - mistakeCount) / inputValue.length) * 100));
         accuracyDisplay.innerText = `${accuracy}%`;
     }
 }
 
-// Finish the game
 function finishGame() {
     clearInterval(timerInterval);
     isGameActive = false;
-    
-    // Calculate final stats
     const endTime = new Date();
-    const timeElapsed = (endTime - startTime) / 60000; // in minutes
+    const timeElapsed = (endTime - startTime) / 60000; 
     const wordsTyped = currentQuote.length / 5;
     const finalWpm = Math.round(wordsTyped / timeElapsed);
     const accuracy = Math.max(0, Math.round(((currentQuote.length - mistakeCount) / currentQuote.length) * 100));
     const totalTime = Math.floor((endTime - startTime) / 1000);
-    
-    // Update results panel
+
     resultWpm.innerText = finalWpm;
     resultAccuracy.innerText = `${accuracy}%`;
     resultTime.innerText = `${totalTime}s`;
     
-    // Show results
     showResults();
 }
 
-// Reset game state
 function resetGame() {
     clearInterval(timerInterval);
     isGameActive = false;
@@ -207,16 +183,13 @@ function resetGame() {
     accuracyDisplay.innerText = '100%';
 }
 
-// Show results panel
 function showResults() {
     results.classList.add('show');
 }
 
-// Hide results panel
 function hideResults() {
     results.classList.remove('show');
     loadNewQuote();
 }
 
-// Initialize when page loads
 document.addEventListener('DOMContentLoaded', init);
